@@ -1,0 +1,52 @@
+{% extends 'tienda/layout.html' %}
+{% load static %}
+
+{% block body %}
+
+<h1>Modificar Clase de Natación</h1>
+<form method="post" enctype="multipart/form-data" class="custom-form">
+    {% csrf_token %}
+    <div class="mb-3">
+        <label class="form-label">Nombre:</label>
+        {{ form.nombre }}
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label class="form-label">Hora de inicio:</label>
+            {{ form.hora_inicio }}
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Hora de fin:</label>
+            {{ form.hora_fin }}
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <label class="form-label">Cupos disponibles:</label>
+            {{ form.cupos_disponibles }}
+        </div>
+        <div class="col-md-6">
+            <label class="form-label">Precio:</label>
+            {{ form.precio }}
+        </div>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Imagen:</label>
+        {{ form.imagen }}
+    </div>
+    <div class="mb-3">
+        <fieldset>
+            <legend class="form-label">Días de la semana:</legend>
+            {% for choice in form.dias_semana %}
+            <div class="form-check form-check-inline">
+                {{ choice }}
+                <label class="form-check-label"></label>
+                
+            </div>
+            {% endfor %}
+        </fieldset>
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+</form>
+
+{% endblock body %}

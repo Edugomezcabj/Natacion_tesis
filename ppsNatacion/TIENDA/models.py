@@ -13,7 +13,7 @@ class ClaseNatacion(models.Model):
 
     def __str__(self):
         return f"{self.nombre} - {self.fecha.strftime('%d/%m/%Y')}"
-    
+
 
 class ComprasClase(models.Model):
     usuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
@@ -21,6 +21,7 @@ class ComprasClase(models.Model):
     precio_clase = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     fecha_compra = models.DateTimeField(auto_now_add=True)
     cupos_disponibles_pagos = models.IntegerField(blank=True, null=True)
+
     def __str__(self):
         return f'{self.usuario.username} - {self.clase_comprada}'
 
@@ -34,7 +35,6 @@ class ComprasClase(models.Model):
         )
 
 
-  
 class InscripcionClase(models.Model):
     usuario = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     clase_natacion = models.ForeignKey(ClaseNatacion, on_delete=models.CASCADE)
@@ -57,10 +57,6 @@ class InscripcionClase(models.Model):
 
     def obtener_cupos_disponibles(self):
         return self.clase_natacion.cupos_disponibles
-
-
-
-
 
 
 class Noticia(models.Model):

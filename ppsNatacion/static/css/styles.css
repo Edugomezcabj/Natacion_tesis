@@ -14,13 +14,12 @@ body {
     z-index: 0;
 }
 
-
 #particles-js {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        z-index: 1;
-    }
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
 
 /* Ajustes para el cuerpo y el HTML */
 body, html {
@@ -29,8 +28,8 @@ body, html {
     position: relative;
     margin-bottom: 0px; /* ajusta según sea necesario */
     background-color: #F0F9FF;
-    
 }
+
 .redes-sociales{
     position: relative;
     z-index: 2;
@@ -43,7 +42,6 @@ body, html {
     position: relative;
     z-index: 2;
 }
-
 
 .contenedor2 {
     flex: 1;
@@ -111,10 +109,7 @@ body, html {
     object-fit: cover;
 }
 
-
-
 /* ESTILOS DE EL FORMULARIO DE AGREGAR CLASE */
-
 
 /* Estilos para el formulario en general */
 .custom-form {
@@ -160,8 +155,6 @@ body, html {
 /* Ajusta el espacio entre el botón "Volver al inicio" y el contenido superior e inferior */
 .btn-volver {
     background-color: #3498DB!important; 
-    /*margin-bottom: 1.5rem;  Espacio entre el botón y el contenido inferior */
-    /*margin-top: 5rem;  Espacio entre el botón y el contenido superior */
 }
 
 .titulo {
@@ -172,7 +165,8 @@ body, html {
 .boton {
     margin-bottom: 1.5rem;  /* Espacio entre el botón y el contenido inferior */
     margin-top: 5rem;  /* Espacio entre el botón y el contenido superior */
- }
+}
+
 /* Estilos para el botón de envío */
 .btn-enviar {
     background-color: #6C3483; /* Color de fondo del botón */
@@ -182,7 +176,6 @@ body, html {
     border-radius: 5px; /* Bordes redondeados */
     cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
     /* Otros estilos según tus preferencias */
-    
 }
 
 /* Estilos para la etiqueta de saludo */
@@ -221,14 +214,11 @@ body, html {
 }
 
 /* Estilos para los elementos internos del contenedor de información */
-#informacionEvento p ,h3{
+#informacionEvento p, h3 {
     margin: 0; /* Elimina los márgenes predeterminados de los párrafos dentro del contenedor de información */
     color: #ffffff; /* Color del texto dentro del contenedor de información */
     margin-top: 1rem;
 }
-
-
-
 
 /* Estilos generales para la sección */
 .section-first {
@@ -249,85 +239,15 @@ body, html {
     margin: 0 auto;
 }
 
-
 /* Estilos para las pestañas */
 .nav-tabs {
     border-bottom: 2px solid #007BFF; /* Cambia el color de la línea inferior según sea necesario */
 }
 
+/* Estilos para los enlaces en la barra de navegación */
 .nav-link {
     font-size: 16px;
     color: #333; /* Cambia el color del texto según sea necesario */
-}
-
-.nav-link.active {
-    color: #007BFF; /* Cambia el color del texto activo según sea necesario */
-}
-
-
-
-/* Estilos para los botones */
-.button {
-    display: inline-block;
-    padding: 10px 20px;
-    margin-top: 20px;
-    text-align: center;
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: bold;
-    border-radius: 5px;
-}
-
-.button-secondary {
-    color: #fff;
-    background-color: #28a745; /* Cambia el color de fondo según sea necesario */
-}
-
-.button-black-outline {
-    color: #333;
-    background-color: transparent;
-    border: 2px solid #333; /* Cambia el color del borde según sea necesario */
-}
-
-.button:hover {
-    opacity: 0.8; /* Ajusta la opacidad al pasar el ratón por encima */
-}
-
-
-/* Estilos para el contenedor de noticias */
-.noticias-container {
-    background-color: #f8f9fa; /* Color de fondo */
-    padding: 20px; /* Espaciado interno */
-    border-radius: 10px; /* Borde redondeado */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra */
-}
-
-/* Estilos para el título de noticias */
-.noticias-container h2 {
-    color: #333; /* Color del texto */
-    font-size: 24px; /* Tamaño de la fuente */
-    margin-bottom: 20px; /* Espaciado inferior */
-}
-
-/* Estilos para las noticias individuales */
-.noticia {
-    margin-bottom: 20px; /* Espaciado inferior */
-    border-bottom: 1px solid #ddd; /* Línea divisoria */
-    padding-bottom: 20px; /* Espaciado interno inferior */
-}
-
-/* Estilos para el título de la noticia */
-.noticia h3 {
-    color: #555; /* Color del texto */
-    font-size: 20px; /* Tamaño de la fuente */
-    margin-bottom: 10px; /* Espaciado inferior */
-}
-
-/* Estilos para el resumen de la noticia */
-.noticia p {
-    color: #777; /* Color del texto */
-    font-size: 16px; /* Tamaño de la fuente */
-    margin-bottom: 10px; /* Espaciado inferior */
 }
 
 /* Estilos para el enlace "Leer más" */
@@ -341,9 +261,3 @@ body, html {
 .noticia a:hover {
     color: #0056b3; /* Color del enlace al pasar el mouse */
 }
-
-
-
-
-
-

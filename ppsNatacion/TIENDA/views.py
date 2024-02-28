@@ -118,10 +118,27 @@ def calcular_precio_total(precio_base, cupos, nombre_clase):
             'precio_por_5_clases': precio_base * 3 + (aumento_por_clase * 3), #9000
             
         }
-
+    elif nombre_clase == "Gimnasia Acuática":
+        diferencia_por_clase2 -= 2500
+        precios = {
+            'precio': precio_base, # 2500 
+            'precio_por_2_clases': precio_base * 3, #7500
+            'precio_por_3_clases': precio_base * 3 + (aumento_por_clase * 1), #8000
+            'precio_por_4_clases': precio_base * 3 + (aumento_por_clase * 2) , #8500
+            'precio_por_5_clases': precio_base * 3 + (aumento_por_clase * 3), #9000
+            'precio_por_5_clases': precio_base * 3 + (aumento_por_clase * 4), #9500
+            
+        }
+    else:
+        precios = {
+            'precio': precio_base, # 2500
+            'precio_por_2_clases': precio_base * 3 + diferencia_por_clase , #8000
+            'precio_por_3_clases': precio_base * 3 + (aumento_por_clase * 1) + diferencia_por_clase, #8500
+            'precio_por_4_clases': precio_base * 3 + (aumento_por_clase * 2) + diferencia_por_clase, #9000
+            'precio_por_5_clases': precio_base * 3 + (aumento_por_clase * 3) + diferencia_por_clase, #9500
+            'precio_por_6_clases': precio_base * 3 + (aumento_por_clase * 4) + diferencia_por_clase, #10000
+        }
     return precios
-
-
 
 
 def buscar(request):

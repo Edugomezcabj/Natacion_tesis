@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block body %}
-  
+
   <h2 class="titulo">Lista de Alumnos</h2>
   {% csrf_token %}
   <div class="row">
@@ -10,7 +10,6 @@
       <table id="alumnos-table" class="table table-bordered table-striped"> <!-- Cambié table-dark por table-striped -->
         <thead>
           <tr>
-
             <th class="table-info" scope='col'>Nombre de Alumno</th>
             <th class="table-info" scope='col'>Teléfono</th>
             <th class="table-info" scope='col'>Compras</th>
@@ -20,31 +19,32 @@
         </thead>
         <tbody>
           {% for usuario in usuarios %}
-          {% if not usuario.is_superuser %}
-            <tr class="table-info">
-              <td class="table-info">{{ usuario.username }}</td>
-              <td class="table-info">{{ usuario.telefono }}</td>
-              <td class="table-info">
+            {% if not usuario.is_superuser %}
+              <tr class="table-info">
+                <td class="table-info">{{ usuario.username }}</td>
+                <td class="table-info">{{ usuario.telefono }}</td>
+                <td class="table-info">
                   {% for compra in usuario.compras %}
-                      CLASE: {{ compra.clase_comprada }} - HORAS DISPONIBLES: {{ compra.cupos_disponibles_pagos }} -FECHA QUE LO COMPRO: {{ compra.fecha_compra }}
-                      <br>
+                    CLASE: {{ compra.clase_comprada }} - HORAS DISPONIBLES: {{ compra.cupos_disponibles_pagos }} - FECHA QUE LO COMPRÓ: {{ compra.fecha_compra }}
+                    <br>
                   {% endfor %}
-              </td>
-              <td>
-                <div class="btn-group open">
-                  <a class="btn btn-primary" href="{% url 'tienda:ver_mas_usuario' usuario.id %}"><i class="fa fa-user fa-fw"></i> User</a>
-                  
-                </div>
-              </td>
-              <td>
-                <form method="post" action="{% url 'tienda:lista_alumnos' %}" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este alumno?');">
-                  {% csrf_token %}
-                  <input type="hidden" name="alumno_id" value="{{ usuario.id }}">
-                  <button type="submit" name="eliminar" class="btn btn-danger"><i class="fa fa-trash-o fa-lg"></i></a></button>
-                </form>                
-              </td>
-            </tr>
-          {% endif %}
+                </td>
+                <td>
+                  <div class="btn-group open">
+                    <a class="btn btn-primary" href="{% url 'tienda:ver_mas_usuario' usuario.id %}">
+                      <i class="fa fa-user fa-fw"></i> Usuario
+                    </a>
+                  </div>
+                </td>
+                <td>
+                  <form method="post" action="{% url 'tienda:lista_alumnos' %}" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este alumno?');">
+                    {% csrf_token %}
+                    <input type="hidden" name="alumno_id" value="{{ usuario.id }}">
+                    <button type="submit" name="eliminar" class="btn btn-danger"><i class="fa fa-trash-o fa-lg"></i></button>
+                  </form>
+                </td>
+              </tr>
+            {% endif %}
           {% endfor %}
         </tbody>
       </table>
@@ -55,7 +55,5 @@
     <a href="{% url 'tienda:agregar_alumno' %}" class="btn btn-success btn-enviar">Agregar Alumno</a>
     <a href="{% url 'tienda:ver_turnos' %}" class="btn btn-success btn-enviar">Ver Turnos</a>
   </div>
-  
-</div>
 
 {% endblock body %}

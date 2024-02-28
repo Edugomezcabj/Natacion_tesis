@@ -1,17 +1,21 @@
 {% load static %}
-<nav class="navbar navbar-dark  fixed-top" style="background-color: #112A4A">
-        
-    <div class="container-fluid" >
-        <a class="navbar-brand" href="{% url 'tienda:home' %}" style=""><img src="{% static 'media/img/logoblanco.png' %}" alt="Logo de la tienda" width="50" height="50">SPARTA CLUB DE NATACION</a>
-        
+
+<nav class="navbar navbar-dark fixed-top" style="background-color: #112A4A">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'tienda:home' %}">
+            <img src="{% static 'media/img/logoblanco.png' %}" alt="Logo de la tienda" width="50" height="50">
+            SPARTA CLUB DE NATACIÓN
+        </a>
+
         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasDarkNavbar"
             aria-controls="offcanvasDarkNavbar" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="offcanvas offcanvas-end text-bg-dark" tabindex="-1" id="offcanvasDarkNavbar"
             aria-labelledby="offcanvasDarkNavbarLabel" style="background-color: #112A4A">
-            <div class="offcanvas-header" >
-                <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Menu</h5>
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasDarkNavbarLabel">Menú</h5>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
                     aria-label="Close"></button>
             </div>
@@ -20,8 +24,9 @@
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="{% url 'tienda:home' %}">Inicio</a>
                     </li>
+
                     {% if user.is_authenticated %}
-                        {% if not user.is_staff %} {# Verificar si el usuario no es administrador #}
+                        {% if not user.is_staff %}
                             <li class="nav-item">
                                 <a class="nav-link" href="#">Acerca de</a>
                             </li>
@@ -30,32 +35,38 @@
                             </li>
                         {% endif %}
                     {% endif %}
+
                     {% if perms.TIENDA.lista_alumnos %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'tienda:lista_alumnos' %}" style="color: #ffffff;">Lista alumnos</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'tienda:lista_alumnos' %}" style="color: #ffffff;">Lista alumnos</a>
+                        </li>
                     {% endif %}
+
                     {% if perms.TIENDA.agregar_clase %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'tienda:agregar_clase' %}" style="color: #ffffff;">Agregar Clases</a>
-                    </li>
+                        <li class="nav-item">
+                            {#<a class="nav-link" href="{% url 'tienda:agregar_clase' %}" style="color: #ffffff;">Agregar Clases</a>#}
+                        </li>
                     {% endif %}
+
                     {% if perms.TIENDA.clase_natacion_list %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'tienda:clase_natacion_list' %}" style="color: #ffffff;">Modificar Clase</a>
-                    </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'tienda:clase_natacion_list' %}" style="color: #ffffff;">Modificar Clase</a>
+                        </li>
                     {% endif %}
+
                     {% if user.is_authenticated %}
-                        {% if not user.is_staff %} {# Verificar si el usuario no es administrador #}
+                        {% if not user.is_staff %}
                             <li class="nav-item">
                                 <a class="nav-link" href="{% url 'tienda:asociar_usuario_clases' %}" style="color: #ffffff;">Calendario de Clases</a>
                             </li>
                         {% endif %}
                     {% endif %}
+
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'tienda:ver_turnos' %}" style="color: #ffffff;">Ver Turnos</a>
                     </li>
                 </ul>
+
                 <div class="d-grid gap-2 d-md-block">
                     {% if user.is_authenticated %}
                         <div class="dropdown">
@@ -77,10 +88,6 @@
                         </button>
                     {% endif %}
                 </div>
-                <form action="{% url 'tienda:buscar' %}">
-                    <input name="buscar" type="text" placeholder="buscar...">
-                    <button type="submit" class="btn btn-outline-info">Buscar</button>
-                </form>
             </div>
         </div>
     </div>
