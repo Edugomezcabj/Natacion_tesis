@@ -1,0 +1,77 @@
+{% extends 'tienda/layout.html' %}
+{% load static %}
+
+{% block body %}
+
+<div class="container">
+    <form method="post" class="mb-3" id="filtro-form">
+        {% csrf_token %}
+        <input type="hidden" name="action" id="action" value="">
+        <div class="row">
+            <div class="col-md-6">
+                <label for="id_nombre" class="form-label">Nombre:</label>
+                {{ form.nombre }}
+            </div>
+            
+            <div class="col-md-6">
+                <label for="id_hora_inicio" class="form-label">Hora de inicio:</label>
+                {{ form.hora_inicio }}
+            </div>
+            <div class="col-md-6">
+                <label for="id_dia_semana" class="form-label">Día de la semana:</label>
+                {{ form.dia_semana }}
+            </div>
+            <div class="col-md-6">
+                <label for="id_hora_fin" class="form-label">Hora de fin:</label>
+                {{ form.hora_fin }}
+            </div>
+            
+
+            <div class="col-md-12 text-center">
+                <button type="button" class="btn btn-primary" id="filtrar-btn">Filtrar</button>
+                <button type="button" class="btn btn-success" id="modificar-btn">Modificar Clases</button>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <label for="id_nuevo_precio" class="form-label">Nuevo Precio:</label>
+                {{ form.nuevo_precio }}
+            </div>
+        </div>
+    </form>
+
+    {% if clases %}
+        <!-- Campos para el nuevo precio y la nueva imagen -->
+        
+        <ul class="list-group">
+        {% for clase in clases %}
+            <li class="list-group-item">
+                <strong>{{ clase.nombre }}</strong> - {{ clase.fecha|date:"d/m/Y" }} - {{ clase.get_dia_semana_display }}
+                <br>
+                <span class="text-muted">Hora de inicio: {{ clase.hora_inicio|time:"H:i" }}</span>
+                <span class="text-muted">Hora de fin: {{ clase.hora_fin|time:"H:i" }}</span>
+            </li>
+        {% endfor %}
+        </ul>
+
+        
+    {% else %}
+        <p class="mt-3">No se encontraron clases que coincidan con los filtros seleccionados.</p>
+    {% endif %}
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('filtrar-btn').addEventListener('click', function() {
+            document.getElementById('action').value = 'filtrar';
+            document.getElementById('filtro-form').submit();
+        });
+
+        document.getElementById('modificar-btn').addEventListener('click', function() {
+            document.getElementById('action').value = 'modificar';
+            document.getElementById('filtro-form').submit();
+        });
+    });
+</script>
+
+{% endblock body %}

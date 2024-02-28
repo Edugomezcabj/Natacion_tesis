@@ -1,0 +1,134 @@
+{% extends 'tienda/layout.html' %}
+{% load static %}
+{% block body %}
+
+<!-- tienda/pago_producto.html -->
+
+<h2>Detalle del Pago</h2>
+
+<div id="claseInfoContainer"></div>
+
+{% if messages|length > 0 %}
+    <ul>
+        {% for message in messages %}
+            <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+<div class="container mt-3">
+    <div id="messagesContainer" class="alert alert-dismissible fade show" role="alert">
+        <!-- Los mensajes se insertarán aquí dinámicamente -->
+    </div>
+</div>
+<!-- ... Tu código HTML anterior ... -->
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Función para obtener los parámetros de la URL
+        function getURLParameters() {
+            var urlParams = new URLSearchParams(window.location.search);
+            var params = {};
+            for (const [key, value] of urlParams) {
+                params[key] = value;
+            }
+            return params;
+        }
+    
+        // Obtén los parámetros de la URL
+        var params = getURLParameters();
+    
+        // Verifica si las variables están definidas antes de usarlas
+        var claseId = params.claseId || '';
+        var cupos = params.cupos || '';
+        var dias = params.dias || '';
+        var horaInicio = params.horaInicio || '';
+        var horaFin = params.horaFin || '';
+        var precioSeleccionado = params.precioSeleccionado || '';
+        cupos= cupos * 5 
+        // Crea un contenedor para mostrar la información
+        var claseInfoContainer = document.getElementById('claseInfoContainer');
+    
+        // Muestra la información en el contenedor
+        claseInfoContainer.innerHTML = `
+            <div class="card" style="width: 18rem; margin: 30px;">
+                <div class="card-body">
+                    <h5 class="card-title">${claseId}</h5>
+                    <p class="card-text">Cupos Disponibles: ${cupos}</p>
+                    <p class="card-text">Días: ${dias}</p>
+                    <p class="card-text">Hora: ${horaInicio} - ${horaFin}</p>
+                    <!-- Agrega más detalles según tus necesidades -->
+                    <p style="color: red;">Precio: ${new Intl.NumberFormat('es-AR', { style: 'currency', currency: 'ARS' }).format(parseFloat(precioSeleccionado))}</p>
+                    <!-- Agrega un formulario de pago aquí si es necesario -->
+                    <button class="btn btn-primary" id="procederAlPago">Pagar</button>
+                    <button class="btn btn-danger" id="cancelarTarjeta">Cancelar</button>
+                </div>
+            </div>
+        `;
+    
+        // Agrega un event listener al botón de pago
+        var procederAlPagoBtn = document.getElementById('procederAlPago');
+        procederAlPagoBtn.addEventListener('click', function () {
+            // Utiliza las variables definidas anteriormente
+            var data = {
+                clase_id: claseId,
+                precio_seleccionado: precioSeleccionado,
+                cupos_disponibles: cupos
+            };
+    
+            // Realizar la solicitud AJAX para procesar el pago
+            fetch('/realizar_pago/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(response => {
+                console.log('Respuesta JSON:', response);
+                return response.json();
+            })
+            .then(data => {
+                console.log('Datos recibidos:', data);
+            
+                // Verifica si messages está definido
+                var messagesContainer = document.getElementById('messagesContainer');
+                var messages = data.messages || [];
+            
+                // Muestra los mensajes en el contenedor con estilos de Bootstrap
+                if (messages.length > 0) {
+                    var messagesList = '<ul>';
+                    messages.forEach(function (message) {
+                        messagesList += '<li>' + message + '</li>';
+                    });
+                    messagesList += '</ul>';
+                    messagesContainer.innerHTML = messagesList;
+            
+                    // Agrega clases de Bootstrap según el tipo de mensaje
+                    messagesContainer.classList.remove('alert-success');  // Elimina la clase de éxito si estaba presente
+                    messagesContainer.classList.add('alert-danger');  // Agrega la clase de error
+                    messagesContainer.classList.remove('d-none');  // Muestra el contenedor si estaba oculto
+                } else {
+                    // Oculta el contenedor si no hay mensajes
+                    messagesContainer.innerHTML = '';  // Limpia el contenido del contenedor
+                    messagesContainer.classList.add('d-none');
+                }
+                
+                // Resto del código según tus necesidades
+            })
+            .catch(error => {
+                console.error('Error en la solicitud:', error);
+                // Puedes manejar el error de manera adecuada, mostrar mensajes al usuario, etc.
+            });
+        });
+
+        // Event listener para el botón de cancelar
+        var cancelarTarjetaBtn = document.getElementById('cancelarTarjeta');
+        cancelarTarjetaBtn.addEventListener('click', function () {
+            // Redirige al usuario a tienda:home
+            window.location.href = "{% url 'tienda:home' %}";
+        });
+    });
+</script>
+
+{% endblock %}

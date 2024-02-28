@@ -1,0 +1,118 @@
+{% load static %}
+
+<script>
+    function toggleCardHeight(cardId) {
+        var card = document.getElementById(cardId);
+        card.classList.toggle('expanded');
+    }
+</script>
+
+<section>
+    <div class="container">
+        {% if user.is_authenticated and user.is_superuser %}
+        <a href="{% url 'tienda:agregar_Noticia' %}" class="btn btn-primary btn-volver">Agregar Noticia</a>
+        {% endif %}
+        <div class="row">
+            <div class="col-md-12 mb-4">
+                <div class="noticias-container">
+                    <h2>Últimas Noticias</h2>
+                    <p>Descubre las últimas noticias de nuestro club</p>
+                    <div class="row">
+                        {% for nota in ultimas_noticias %}
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100" id="card{{ forloop.counter }}">
+                                <img src="{{ nota.imagen.url }}" class="card-img-top" alt="{{ nota.titulo }}" style="object-fit: cover; height: 200px;">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{ nota.titulo }}</h5>
+                                    <p class="card-text">{{ nota.resumen }}</p>
+                                    <a href="javascript:void(0)" class="btn btn-primary" onclick="toggleCardHeight('card{{ forloop.counter }}')">Leer más</a>
+                                </div>
+                                <div class="card-footer">
+                                    <p class="card-text expanded-content">{{ nota.contenido }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<style>
+    .card-footer {
+        overflow: hidden;
+        transition: height 0.3s ease;
+        height: 0;
+    }
+
+    .card.expanded .card-footer {
+        height: auto;
+    }
+
+    .expanded-content {
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    .card.expanded .expanded-content {
+        opacity: 1;
+    }
+
+    /* Estilos para el contenedor de noticias */
+    .noticias-container {
+        background-color: #f8f9fa; /* Color de fondo */
+        padding: 20px; /* Espaciado interno */
+        border-radius: 10px; /* Borde redondeado */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra */
+    }
+
+    /* Estilos para el título de noticias */
+    .noticias-container h2 {
+        color: #333; /* Color del texto */
+        font-size: 24px; /* Tamaño de la fuente */
+        margin-bottom: 20px; /* Espaciado inferior */
+    }
+
+    /* Estilos para la descripción de noticias */
+    .noticias-container p {
+        color: #666; /* Color del texto */
+        font-size: 16px; /* Tamaño de la fuente */
+        margin-bottom: 20px; /* Espaciado inferior */
+    }
+
+    /* Estilos para las noticias individuales */
+    .noticia {
+        margin-bottom: 20px; /* Espaciado inferior */
+        border-bottom: 1px solid #ddd; /* Línea divisoria */
+        padding-bottom: 20px; /* Espaciado interno inferior */
+    }
+
+    /* Estilos para el título de la noticia */
+    .noticia h3 {
+        color: #555; /* Color del texto */
+        font-size: 20px; /* Tamaño de la fuente */
+        margin-bottom: 10px; /* Espaciado inferior */
+    }
+
+    /* Estilos para el resumen de la noticia */
+    .noticia p {
+        color: #777; /* Color del texto */
+        font-size: 16px; /* Tamaño de la fuente */
+        margin-bottom: 10px; /* Espaciado inferior */
+    }
+
+    /* Estilos para el enlace "Leer más" */
+    .noticia a {
+        color: #007bff; /* Color del enlace */
+        text-decoration: none; /* Sin subrayado */
+        font-weight: bold; /* Negrita */
+        transition: color 0.3s; /* Transición suave de color */
+    }
+
+    .noticia a:hover {
+        color: #0056b3; /* Color del enlace al pasar el mouse */
+    }
+</style>

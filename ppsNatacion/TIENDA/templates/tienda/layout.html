@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>SPARTA CLUB DE NATACION</title>
+    <link rel="icon" href="{% static 'media/img/logonegro.png' %}" type="image/x-icon"> 
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    
+    <script src="{% static 'js/particles.min.js' %}"></script>
+    
+    <script src="{% static 'node_modules/jquery/dist/jquery.min.js' %}"></script>
+
+    <!-- Cargar Bootstrap desde la carpeta local -->
+    <link rel="stylesheet" type="text/css" href="{% static 'node_modules/bootstrap/dist/css/bootstrap.min.css' %}">
+    <script type="text/javascript" src="{% static 'node_modules/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'node_modules/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- Cargar DataTables desde la carpeta local
+    <link rel="stylesheet" type="text/css" href="{% static 'node_modules/datatables.net-dt/css/jquery.dataTables.min.css' %}">
+    <script type="text/javascript" src="{% static 'node_modules/datatables.net/js/jquery.dataTables.min.js' %}"></script>--> 
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'DataTables/datatables.min.css' %}">
+    <script type="text/javascript" src="{% static 'DataTables/datatables.min.js' %}"></script>
+    
+
+    <script src="{% static 'js/script.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+
+    
+    <!-- Incluir FullCalendar JS -->
+
+        <!-- Incluir FullCalendar JS -->
+    <script src="{% static 'fullcalendar/core/index.global.js' %}"></script>
+    <script src="{% static 'fullcalendar/daygrid/index.global.min.js' %}"></script>
+    
+    <script type="module" src="{% static 'fullcalendar/core/locales/es.global.js' %}"></script>
+    
+<!-- Otros archivos necesarios de FullCalendar -->
+    <link rel="stylesheet" href="{% static 'font-awesome-4.7.0/css/font-awesome.min.css'%}">
+
+</head>
+
+<body>                                                          
+<div id="particles-js"></div>
+    
+    
+    {% include 'extracciones/nav.html' %}
+    
+    
+     {% block carrusel %}
+
+    {% endblock carrusel %}
+
+    <div class="container">
+
+   
+
+        {% block body %}
+
+        {% endblock body %}
+
+    </div>
+    <div class="container">
+        {% block content %}
+        {% endblock content %}
+    </div>
+
+
+    
+    <div class="noticias-container">
+        {% block noticias %}
+        <!-- Contenido de las noticias aquí -->
+        {% endblock noticias %}
+    </div>
+    
+
+
+
+    {% include 'extracciones/footer.html' %}
+
+    
+
+    <script src="{% static 'js/particles.js' %}"></script>
+</body>
+
+</html>

@@ -1,0 +1,15 @@
+{% extends 'tienda/layout.html' %}
+{% load static %}
+
+{% block body %}
+<h2>Agregar Noticia</h2>
+{% if user.is_authenticated and user.is_superuser %}
+    <h2>Agregar Noticia</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Agregar Noticia</button>
+    </form>
+{% endif %}
+  <a href="{% url 'tienda:home' %}" class="btn btn-primary btn-volver">Volver </a>
+{% endblock body %}

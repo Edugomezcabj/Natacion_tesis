@@ -1,0 +1,120 @@
+{% extends 'tienda/layout.html' %}
+{% load static %}
+
+{% block carrusel %}
+  {% include 'extracciones/carrucel.html' %}
+{% endblock carrusel %}
+
+{% block presentacion %}
+<div>
+  <h1 id="presentacion">Estamos para garantizarte un buen servicio, con los mejores profesionales a tu disposición</h1>
+</div>
+{% endblock presentacion %}
+
+{% block noticias %}
+  {% include 'extracciones/noticias.html' %}
+{% endblock noticias %}
+
+{% block body %}
+<h2 style="width: 100%; height: 100%;">Tipos de Clases</h2>
+<div class="d-flex flex-wrap">
+  {% for clase in clases %}
+  <div class="card mb-3 mx-3" style="width: 18rem; margin: 30px">
+    {% if clase.imagen %}
+    <img src="{{ clase.imagen.url }}" class="card-img-top" alt="{{ clase.nombre }}">
+    {% endif %}
+    <div class="card-body">
+      <h5 class="card-title">{{ clase.nombre }}</h5>
+      <p style="color: #1F618D;">Precio por 1 Sesión: {{ clase.precio }}</p>
+      <p style="color: #1F618D;">Precio por 2 Sesiones: {{ clase.precio_por_2_clases }}</p>
+      <p style="color: #1F618D;">Precio por 3 Sesiones: {{ clase.precio_por_3_clases }}</p>
+      {% if 'precio_por_4_clases' in clase %}
+      <p style="color: #1F618D;">Precio por 4 Sesiones: {{ clase.precio_por_4_clases }}</p>
+      {% endif %}
+      {% if 'precio_por_5_clases' in clase %}
+      <p style="color: #1F618D;">Precio por 5 Sesiones: {{ clase.precio_por_5_clases }}</p>
+      {% endif %}
+      {% if 'precio_por_6_clases' in clase %}
+      <p style="color: #1F618D;">Precio por 6 Sesiones: {{ clase.precio_por_6_clases }}</p>
+      {% endif %}
+      {% if 'precio_por_8_clases' in clase %}
+      <p style="color: #1F618D;">Precio por 8 Sesiones: {{ clase.precio_por_8_clases }}</p>
+      {% endif %}
+      {% if 'precio_por_10_clases' in clase %}
+      <p style="color: #1F618D;">Precio por 10 Sesiones: {{ clase.precio_por_10_clases }}</p>
+      {% endif %}
+      {% if 'precio_por_12_clases' in clase %}
+      <p style="color: #1F618D;">Precio por 12 Sesiones: {{ clase.precio_por_12_clases }}</p>
+      {% endif %}
+      <!-- Selector de clases y Botón de pago -->
+      <label for="claseSelector_{{ clase.nombre }}">Selecciona el número de Sesiones:</label>
+      <select class="claseSelector" id="claseSelector_{{ clase.nombre }}" data-clase-id="{{ clase.nombre }}">
+        <option value="1" data-precio="{{ clase.precio }}">1 Sesión - {{ clase.precio }}</option>
+        <option value="2" data-precio="{{ clase.precio_por_2_clases }}">2 Sesiones - {{ clase.precio_por_2_clases }}</option>
+        <option value="3" data-precio="{{ clase.precio_por_3_clases }}">3 Sesiones - {{ clase.precio_por_3_clases }}</option>
+        {% if 'precio_por_4_clases' in clase %}
+        <option value="4" data-precio="{{ clase.precio_por_4_clases }}">4 Sesiones - {{ clase.precio_por_4_clases }}</option>
+        {% endif %}
+        {% if 'precio_por_5_clases' in clase %}
+        <option value="5" data-precio="{{ clase.precio_por_5_clases }}">5 Sesiones - {{ clase.precio_por_5_clases }}</option>
+        {% endif %}
+        {% if 'precio_por_6_clases' in clase %}
+        <option value="6" data-precio="{{ clase.precio_por_6_clases }}">6 Sesiones - {{ clase.precio_por_6_clases }}</option>
+        {% endif %}
+        {% if 'precio_por_8_clases' in clase %}
+        <option value="8" data-precio="{{ clase.precio_por_8_clases }}">8 Sesiones - {{ clase.precio_por_8_clases }}</option>
+        {% endif %}
+        {% if 'precio_por_10_clases' in clase %}
+        <option value="10" data-precio="{{ clase.precio_por_10_clases }}">10 Sesiones - {{ clase.precio_por_10_clases }}</option>
+        {% endif %}
+        {% if 'precio_por_12_clases' in clase %}
+        <option value="12" data-precio="{{ clase.precio_por_12_clases }}">12 Sesiones - {{ clase.precio_por_12_clases }}</option>
+        {% endif %}
+      </select>
+      <button
+        class="btn btn-primary btnPagar"
+        data-clase-id="{{ clase.nombre }}"
+        data-cupos="{{ clase.cupos }}"
+        data-dias="{{ clase.dias|join:", " }}"
+        data-hora-inicio="{{ clase.hora_inicio }}"
+        data-hora-fin="{{ clase.hora_fin }}"
+        onclick="redirectToPagoProducto()">
+        Descripción del pago
+      </button>
+      <!-- Botón para modificar clase -->
+      <!-- Resto de la información -->
+      <!-- Agrega un botón o enlace para redirigir a más detalles si es necesario -->
+    </div>
+  </div>
+  {% endfor %}
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+      var btnPagars = document.querySelectorAll('.btnPagar');
+      btnPagars.forEach(function (btnPagar) {
+          btnPagar.addEventListener('click', function() {
+              redirectToPagoProducto.call(this);
+          });
+      });
+  });
+  function redirectToPagoProducto() {
+      // Obtén los datos del botón
+      var claseNombre = this.getAttribute('data-clase-id');
+      var claseSelector = document.getElementById('claseSelector_' + claseNombre);
+      var claseSeleccionada = claseSelector.value;
+      var precioSeleccionado = claseSelector.options[claseSelector.selectedIndex].getAttribute('data-precio');
+      var cuposDisponibles = parseInt(this.getAttribute('data-cupos'));
+      console.log('cuposDisponibles:', cuposDisponibles);
+      // Suma la cantidad seleccionada al valor existente de cupos_disponibles_pagos
+      var cuposSeleccionados = parseInt(claseSeleccionada);
+      var totalCupos = cuposDisponibles + cuposSeleccionados;
+      var dias = this.getAttribute('data-dias');
+      var horaInicio = this.getAttribute('data-hora-inicio');
+      var horaFin = this.getAttribute('data-hora-fin');
+      this.setAttribute('data-cupos', totalCupos);
+      var cuposDisponibles = parseInt(this.getAttribute('data-cupos'));
+      // Redirige a pago_producto.html con los parámetros
+      window.location.href = `/pago_producto/?claseId=${claseNombre}&cupos=${cuposDisponibles}&dias=${dias}&horaInicio=${horaInicio}&horaFin=${horaFin}&precioSeleccionado=${precioSeleccionado}`;
+  }
+</script>
+{% endblock body %}

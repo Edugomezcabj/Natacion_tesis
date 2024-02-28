@@ -1,0 +1,71 @@
+{% extends 'tienda/layout.html' %}
+{% load static %}
+
+{% block body %}
+  <div class="container">
+    <h2 class="titulo">Detalles del Alumno</h2>
+    <div class="row">
+      <div class="col-md-6">
+        <p><strong>Nombre:</strong> {{ usuario.username }}</p>
+        <p><strong>Dirección:</strong> {{ usuario.direccion }}</p>
+        <p><strong>Teléfono:</strong> {{ usuario.telefono }}</p>
+        <p><strong>Sexo:</strong> {{ usuario.get_sexo_display }}</p>
+        <p><strong>Edad:</strong> {{ usuario.edad }}</p>
+        <p><strong>Alergias:</strong> {{ usuario.alergias }}</p>
+        <!-- Agrega más campos según tus necesidades -->
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-12">
+        {% if messages %}
+          <div class="alert alert-success alert-dismissible">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <ul class="list-unstyled mb-0">
+              {% for message in messages %}
+                <li>{{ message }}</li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+        <h2 class="titulo">Compras</h2>
+        <ul class="list-group">
+          {% for compra in compras %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              {{ compra.clase_comprada }} - Precio: {{ compra.precio_clase }} - Fecha: {{ compra.fecha_compra }}
+              <form method="post" action="{% url 'tienda:eliminar_compra' compra_id=compra.id %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-danger btn-sm ">Eliminar</button>
+              </form>
+            </li>
+          {% endfor %}
+        </ul>
+        <a href="{% url 'tienda:agregar_compra' usuario_id=usuario.id %}" class="btn btn-success btn-enviar">Agregar Compra</a>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="titulo">Turnos</h2>
+        <ul class="list-group">
+          {% for inscripcion in inscripciones %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              {{ inscripcion.clase_natacion.nombre }} - Fecha Turnos: {{ inscripcion.clase_natacion.fecha }}
+              <form method="post" action="{% url 'tienda:cancelar_turno' turno_id=inscripcion.id %}" style="display: inline;">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-danger btn-sm ">Eliminar</button>
+              </form>
+            </li>
+          {% endfor %}
+        </ul>
+        <a href="{% url 'tienda:Inscripcion_alumno' usuario_id=usuario.id %}" class="btn btn-success btn-enviar">Inscribir Alumno</a>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <a href="{% url 'tienda:lista_alumnos' %}" class="btn btn-primary btn-volver titulo"><i class="fa fa-reply-all" aria-hidden="true"> Volver</i></a>
+      </div>
+    </div>
+  </div>
+{% endblock body %}

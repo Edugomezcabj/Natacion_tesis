@@ -1,0 +1,45 @@
+{% extends 'tienda/layout.html' %}
+{% block body %}
+  
+  <h2 class="titulo">Lista de Clases de Natación</h2>
+  <div class="row">
+    <div class="col-md-12">
+      <table id="clases-table" class="table table-bordered table-striped"> <!-- Cambié table-dark por table-striped -->
+        <thead>
+          <tr>
+            <th class="table-info" scope='col'>Nombre</th>
+            <th class="table-info" scope='col'>Fecha</th>
+            <th class="table-info" scope='col'>Hora de inicio</th>
+            <th class="table-info" scope='col'>Hora de fin</th>
+            <th class="table-info" scope='col'>Cupos Disponibles</th>
+            <th class="table-info" scope='col'>Precio</th>
+            <th class="table-info" scope='col'>Imagen</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for clase in clases %}
+            <tr class="table-info">
+              <td>{{ clase.nombre }}</td>
+              <td>{{ clase.fecha }}</td>
+              <td>{{ clase.hora_inicio }}</td>
+              <td>{{ clase.hora_fin }}</td>
+              <td>{{ clase.cupos_disponibles }}</td>
+              <td>{{ clase.precio }}</td>
+              <td>
+                {% if clase.imagen %}
+                  <img src="{{ clase.imagen.url }}" alt="{{ clase.nombre }}">
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <a href="{% url 'tienda:home' %}" class="btn btn-primary btn-volver">Volver al inicio</a>
+  <div class="text-center">
+    <a href="{% url 'tienda:agregar_clase' %}" class="btn btn-success btn-enviar">Agregar Clase</a>
+  </div>
+</div>
+
+{% endblock body %}

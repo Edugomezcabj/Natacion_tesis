@@ -1,0 +1,12 @@
+{% extends 'tienda/layout.html' %}
+{% load static %}
+
+{% block body %}
+  <h2 class="titulo">Agregar Nuevo Alumno</h2>
+  <form method="post" action="{% url 'tienda:agregar_alumno' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit" class="btn btn-success">Guardar Alumno</button>
+  </form>
+  <a href="{% url 'tienda:lista_alumnos' %}" class="btn btn-primary btn-volver">Volver a la lista de alumnos</a>
+{% endblock body %}

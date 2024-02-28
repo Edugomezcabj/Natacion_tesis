@@ -1,0 +1,54 @@
+{% extends 'tienda/layout.html' %}
+{% load static %}
+
+{% block body %}
+<div style="display: flex;">
+    <div style="flex: 1;">
+        <h1 class="titulo">Calendario de Clases</h1>
+        <h5 class="card-title titulo">Hola {{ usuario.username }}, puedes elegir las clases que quieres tomar</h5>
+        <div class="card">
+            <div class="card-header">
+                
+                <h5 class="card-title">Clases Compradas</h5>
+            </div>
+            <div class="card-body">
+                {% for compra in clases_compradas %}
+                <div class="mb-3">
+                    <h6 class="card-subtitle mb-2 text-muted">CLASE: {{ compra.clase_comprada }}</h6>
+                    <p class="card-text">HORAS DISPONIBLES: {{ compra.cupos_disponibles_pagos }}</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <form method="post" id="claseForm" action="{% url 'tienda:asociar_usuario_clases' %}">
+            {% csrf_token %}
+            <input type="hidden" name="clase_id" value="{{ clase.id }}">
+            <input type="hidden" id="horariosSeleccionados" name="horariosSeleccionados" value="">
+            <div id="informacionEvento"></div>
+        </form>
+    </div>
+    
+    <div class="titulo" id="calendario" style="flex: 1;"></div>
+</div>
+<button class="btn btn-primary btn-enviar" type="button" id="enviarHorariosBtn">Asociar a Clase</button>
+<a href="{% url 'tienda:home' %}" class="btn-volver btn btn-primary">Volver al inicio</a>
+    <script>
+        const getHorariosClaseURL = '{% url "tienda:get_horarios_clase" %}';
+
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+    <script src="{% static 'js/calendario.js' %}"></script>
+{% endblock body %}

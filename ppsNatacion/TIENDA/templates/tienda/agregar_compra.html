@@ -1,0 +1,187 @@
+{% extends 'tienda/layout.html' %}
+{% load static %}
+
+{% block body %}
+  <div class="container">
+    <h2 class="titulo">Agregar Nueva Compra</h2>
+    <form id="compra-form" method="post" action="{% url 'tienda:agregar_compra' usuario.id %}">
+      {% csrf_token %}
+      <div class="form-group">
+        {{ form.clase_comprada.label_tag }}
+        {{ form.clase_comprada }}
+      </div>
+      <hr>
+      <div class="form-group">
+        {{ form.precio_clase.label_tag }}
+        {{ form.precio_clase }}
+      </div>
+      <hr>
+      <div class="form-group">
+        {{ form.cupos_disponibles_pagos.label_tag }}
+        <select id="id_cupos_disponibles_pagos" name="cupos_disponibles_pagos">
+          <option value="">Seleccione las horas semanales</option>
+        </select>
+      </div>
+      <hr>
+      <div class="form-group">
+        <label for="id_descuento">Descuento:</label>
+        <select id="id_descuento">
+          <option value="0">Sin descuento</option>
+          <option value="0.1">10%</option>
+          <option value="0.2">20%</option>
+          <option value="0.3">30%</option>
+          <option value="0.4">40%</option>
+          <option value="0.5">50%</option>
+        </select>
+      </div>
+      <hr>
+      <div class="form-group">
+        <label for="id_precio_total">Precio Total:</label>
+        <input type="text" id="id_precio_total" readonly>
+        <!-- Agregar el campo oculto para el precio total -->
+        <input type="hidden" id="id_precio_total_hidden" name="precio_total" value="">
+      </div>
+      <hr>
+        
+      <button type="submit" class="btn btn-success btn-enviar">Guardar Compra</button>
+    </form>
+    <a href="{% url 'tienda:ver_mas_usuario' usuario.id %}" class="btn btn-primary btn-volver titulo"><i class="fa fa-reply-all" aria-hidden="true"> Volver</i> </a>
+  </div>
+  <script>
+    $(document).ready(function() {
+        $('#id_clase_comprada').change(function() {
+            var claseSeleccionada = $(this).val();
+            if (claseSeleccionada) {
+                $.ajax({
+                    url: '/obtener_precio_clase/',  // URL de la vista para obtener el precio de la clase
+                    data: {
+                        'clase_comprada': claseSeleccionada
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        $('#id_precio_clase').val(data.precio);
+                        actualizarHorasSemana(claseSeleccionada); // Pasar el nombre de la clase seleccionada
+                        actualizarPrecioTotal(claseSeleccionada);
+                    }
+                });
+            } else {
+                $('#id_precio_clase').val('');
+                $('#id_cupos_disponibles_pagos').empty(); // Limpiar las opciones del campo de horas semanales
+            }
+        });
+
+        $('#id_descuento').on('input', actualizarPrecioTotal);
+
+        function actualizarHorasSemana(nombreClase) {
+            var horasSemana = {
+                'Natación': [
+                    { value: 1, text: '1 clase Eventual' },
+                    { value: 2, text: '2 horas por semana' },
+                    { value: 3, text: '3 horas por semana' },
+                    { value: 4, text: '4 horas por semana' },
+                    { value: 5, text: '5 horas por semana' },
+                    { value: 6, text: '6 horas por semana' }
+                ],
+                'Escuela de Natación': [
+                    { value: 1, text: '1 clase Eventual' },
+                    { value: 2, text: '2 horas por semana' },
+                    { value: 3, text: '3 horas por semana' },
+                    { value: 4, text: '4 horas por semana' },
+                    { value: 5, text: '5 horas por semana' }
+                ],
+                'Equipo Competencia Federados': [
+                    { value: 1, text: '1 clase Eventual' },
+                    { value: 2, text: '2 horas por semana' },
+                    { value: 3, text: '3 horas por semana' },
+                    { value: 4, text: '4 horas por semana' },
+                    { value: 5, text: '5 horas por semana' },
+                    { value: 6, text: '6 horas por semana' },
+                    { value: 8, text: '8 horas por semana' },
+                    { value: 10, text: '10 horas por semana' },
+                    { value: 12, text: '12 horas por semana' }
+                ]
+            };
+
+            // Limpiar las opciones actuales del campo de horas semanales
+            $('#id_cupos_disponibles_pagos').empty();
+
+            // Obtener las opciones correspondientes a la clase seleccionada
+            var options = horasSemana[nombreClase];
+
+            // Agregar las opciones al campo de horas semanales
+            $.each(options, function(index, value) {
+                $('#id_cupos_disponibles_pagos').append($('<option>').text(value.text).attr('value', value.value));
+            });
+        }
+
+        $('#id_cupos_disponibles_pagos, #id_descuento').on('input', actualizarPrecioTotal);
+
+        function actualizarPrecioTotal(nombreClase) {
+            var precioBase = parseFloat($('#id_precio_clase').val());
+            var cupos = parseInt($('#id_cupos_disponibles_pagos').val());
+            var descuentoPorcentaje = parseFloat($('#id_descuento').val());
+            var nombreClase = $('#id_clase_comprada option:selected').text();
+            console.log('nombreClase:', nombreClase);
+            
+            // Verificar si los valores son números válidos
+            if (!isNaN(precioBase) && !isNaN(cupos)) {
+                var precioTotal = 0;
+                var aumentoPorClase = 500;
+                var diferenciaPorClase = 0;
+                var diferenciaPorClase2 = 0;
+
+                // Verificar el nombre de la clase seleccionada y ajustar el precio total si es necesario
+                if (nombreClase === "Natación") {
+                    diferenciaPorClase += 500; // Por ejemplo, aumentar en 500 unidades
+                    
+                } else if (nombreClase === "Equipo Competencia Federados") {
+                    diferenciaPorClase2 -= 2500; // Por ejemplo, disminuir en 2500 unidades
+                }
+                
+                switch (cupos) {
+                    case 1:
+                        precioTotal = precioBase;
+                        break;
+                    case 2:
+                        precioTotal = precioBase * 3 + diferenciaPorClase + diferenciaPorClase2;
+                        break;
+                    case 3:
+                        precioTotal = precioBase * 3 + (aumentoPorClase * 1) + diferenciaPorClase + diferenciaPorClase2;
+                        break;
+                    case 4:
+                        precioTotal = precioBase * 3 + (aumentoPorClase * 2) + diferenciaPorClase + diferenciaPorClase2;
+                        break;
+                    case 5:
+                        precioTotal = precioBase * 3 + (aumentoPorClase * 3) + diferenciaPorClase + diferenciaPorClase2;
+                        break;
+                    case 6:
+                        precioTotal = precioBase * 3 + (aumentoPorClase * 4) + diferenciaPorClase + diferenciaPorClase2;
+                        break;
+                    case 8:
+                        precioTotal = precioBase * 3 + (aumentoPorClase * 5) + diferenciaPorClase + diferenciaPorClase2;
+                        break;
+                    case 10:
+                        precioTotal = precioBase * 3 + (aumentoPorClase * 6) + diferenciaPorClase + diferenciaPorClase2;
+                        break;
+                    case 12:
+                        precioTotal = precioBase * 3 + (aumentoPorClase * 7) + diferenciaPorClase + diferenciaPorClase2;
+                        break;
+                    
+                    default:
+                        // Si el número de cupos no coincide con ningún caso, dejar el precio total en cero
+                        precioTotal = 0;
+                        break;
+                }
+
+                // Aplicar el descuento al precio total
+                precioTotal *= (1 - descuentoPorcentaje);
+
+                // Actualizar el campo de precio total
+                $('#id_precio_total').val(precioTotal.toFixed(2));
+                // Actualizar el campo oculto para el precio total
+                $('#id_precio_total_hidden').val(precioTotal.toFixed(2));
+            }
+        }
+    });
+</script>
+{% endblock body %}

@@ -1,0 +1,94 @@
+{% extends 'tienda/layout.html' %}
+{% load static %}
+
+{% block body %}
+<div class="container mt-5">
+    <h1>Lista de Turnos</h1>
+    {% if messages %}
+        <div class="alert alert-success alert-dismissible">
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <ul class="list-unstyled mb-0">
+              {% for message in messages %}
+                <li>{{ message }}</li>
+              {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+    
+
+    <table id="turnos-table" class="table table-bordered table-striped">
+        <thead class="thead-light">
+            <tr>
+                <th>Usuario</th>
+                <th>Clase de Natación</th>
+                <th>Fecha</th>
+                <th>Hora de Inicio</th>
+                <th>Hora de Fin</th>
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for turno in turnos %}
+                <tr>
+                    <td>{{ turno.usuario.username }}</td>
+                    <td>{{ turno.obtener_nombre_clase }}</td>
+                    <td>{{ turno.obtener_fecha }}</td>
+                    <td>{{ turno.obtener_hora_inicio }}</td>
+                    <td>{{ turno.obtener_hora_fin }}</td>
+                    <td>
+                        <button class="btn btn-danger cancelar-turno" data-turno-id="{{ turno.id }}" data-enviar-json="true">Cancelar</button>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        $(document).ready(function() {
+            $('#turnos-table').DataTable();
+        });
+    </script>
+
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const botonesCancelar = document.querySelectorAll('.cancelar-turno');
+
+        botonesCancelar.forEach(boton => {
+            boton.addEventListener('click', function() {
+                const turnoId = this.getAttribute('data-turno-id');
+                const enviarJSON = this.getAttribute('data-enviar-json');
+
+                if (confirm('¿Estás seguro de cancelar este turno?')) {
+                    if (enviarJSON === 'true') {
+                        fetch(`/cancelar_turno/${turnoId}/`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': '{{ csrf_token }}'
+                            }
+                        })
+                        .then(response => {
+                            if (response.ok) {
+                                alert('Turno cancelado exitosamente');
+                                window.location.reload();
+                            } else {
+                                response.json().then(data => {
+                                    alert(`Error al cancelar el turno: ${data.error}`);
+                                }).catch(error => {
+                                    console.error('Error al analizar la respuesta JSON:', error);
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error al realizar la solicitud:', error);
+                        });
+                    }
+                }
+            });
+        });
+    });
+</script>
+<a href="{% url 'tienda:home' %}" class="btn btn-primary btn-volver"><i class="fa fa-reply-all" aria-hidden="true"> Volver</i></a>
+{% endblock body %}

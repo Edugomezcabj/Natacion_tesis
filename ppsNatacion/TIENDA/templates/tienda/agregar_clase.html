@@ -1,0 +1,78 @@
+{% extends 'tienda/layout.html' %}
+
+{% block body %}
+
+<h2 class="titulo">Agregar Clase de Natación</h2>
+  {% if messages %}
+    <script>
+      console.log({{ messages }});
+    </script>
+    {% for message in messages %}
+      <div class="alert alert-success">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+  <form method="post" enctype="multipart/form-data" class="custom-form">
+    {% csrf_token %}
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <div class="form-group">
+          {{ clase_form.nombre.label_tag }}
+          {{ clase_form.nombre }}
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          {{ clase_form.hora_inicio.label_tag }}
+          {{ clase_form.hora_inicio }}
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          {{ clase_form.hora_fin.label_tag }}
+          {{ clase_form.hora_fin }}
+        </div>
+      </div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-md-4">
+        <div class="form-group">
+          {{ clase_form.cupos_disponibles.label_tag }}
+          {{ clase_form.cupos_disponibles }}
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          {{ clase_form.precio.label_tag }}
+          {{ clase_form.precio }}
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="form-group">
+          {{ clase_form.imagen.label_tag }}
+          {{ clase_form.imagen }}
+        </div>
+      </div>
+    </div>
+    <div class="row mb-12">
+      <div class="col-md-4">
+        <fieldset class="form-group">
+          <legend class="col-form-label">Días de la semana</legend>
+          {% for choice in clase_form.dias_semana %}
+            <div class="form-check">
+              {{ choice }}
+              {{ choice.tag }}
+            </div>
+          {% endfor %}
+        </fieldset>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 text-right">
+        <button type="submit" class="btn btn-primary">Agregar Clase</button>
+        <a href="{% url 'tienda:home' %}" class="btn btn-primary btn-volver">Volver al inicio</a>
+      </div>
+    </div>
+  </form>
+{% endblock body %}
