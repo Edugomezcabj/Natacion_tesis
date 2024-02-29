@@ -96,6 +96,8 @@ class CompraForm(forms.ModelForm):
                 self.fields['cupos_disponibles_pagos'].choices = self.HORAS_SEMANA[:6]
             elif 'Escuela de Natación' in clase_comprada:
                 self.fields['cupos_disponibles_pagos'].choices = self.HORAS_SEMANA[:5]
+            elif 'Gimnasia acuática' in clase_comprada:
+                self.fields['cupos_disponibles_pagos'].choices = self.HORAS_SEMANA[:6]
             elif 'Equipo Competencia Federados' in clase_comprada:
                 self.fields['cupos_disponibles_pagos'].choices = self.HORAS_SEMANA
         
