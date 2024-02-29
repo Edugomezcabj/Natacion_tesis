@@ -1,7 +1,7 @@
 {% extends 'tienda/layout.html' %}
 {% load static %}
-{% block body %}
 
+{% block body %}
 <!-- tienda/pago_producto.html -->
 
 <h2>Detalle del Pago</h2>
@@ -45,6 +45,7 @@
         var horaFin = params.horaFin || '';
         var precioSeleccionado = params.precioSeleccionado || '';
         cupos= cupos * 5 
+        
         // Crea un contenedor para mostrar la información
         var claseInfoContainer = document.getElementById('claseInfoContainer');
     
@@ -131,4 +132,4 @@
     });
 </script>
 
-{% endblock %}
+{% endblock body %}
