@@ -73,6 +73,7 @@
         $('#id_descuento').on('input', actualizarPrecioTotal);
 
         function actualizarHorasSemana(nombreClase) {
+            console.log("Nombre de la clase seleccionada:", nombreClase); // Agregar esta línea para imprimir el nombre de la clase seleccionada
             var horasSemana = {
                 'Natación': [
                     { value: 1, text: '1 clase Eventual' },
@@ -99,7 +100,15 @@
                     { value: 8, text: '8 horas por semana' },
                     { value: 10, text: '10 horas por semana' },
                     { value: 12, text: '12 horas por semana' }
-                ]
+                ],
+                'Gimnasia acuática': [
+                    { value: 1, text: '1 clase Eventual' },
+                    { value: 2, text: '2 horas por semana' },
+                    { value: 3, text: '3 horas por semana' },
+                    { value: 4, text: '4 horas por semana' },
+                    { value: 5, text: '5 horas por semana' },
+                    { value: 6, text: '6 horas por semana' },
+                ],
             };
 
             // Limpiar las opciones actuales del campo de horas semanales
@@ -121,7 +130,6 @@
             var cupos = parseInt($('#id_cupos_disponibles_pagos').val());
             var descuentoPorcentaje = parseFloat($('#id_descuento').val());
             var nombreClase = $('#id_clase_comprada option:selected').text();
-            console.log('nombreClase:', nombreClase);
             
             // Verificar si los valores son números válidos
             if (!isNaN(precioBase) && !isNaN(cupos)) {
