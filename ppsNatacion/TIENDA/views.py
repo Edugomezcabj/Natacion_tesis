@@ -23,6 +23,8 @@ from django.contrib.auth.decorators import user_passes_test
 
 
 
+
+
 def home(request):
     translation.activate('es')
     clases = ClaseNatacion.objects.all()
