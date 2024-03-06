@@ -1,0 +1,43 @@
+{% extends 'tienda/layout.html' %}
+{% load static %}
+{% load custom_filters %}
+
+{% block body %}
+  <div class="container">
+    <h2 class="titulo">Editar Información de {{ form.instance.username }}</h2>
+    <form method="post" class="mt-4">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="id_username" class="form-label">Nombre</label>
+        {{ form.username|add_class:"form-control" }}
+      </div>
+      <div class="mb-3">
+        <label for="id_direccion" class="form-label">Dirección</label>
+        {{ form.direccion|add_class:"form-control" }}
+      </div>
+      <div class="mb-3">
+        <label for="id_telefono" class="form-label">Teléfono</label>
+        {{ form.telefono|add_class:"form-control" }}
+      </div>
+      <div class="mb-3">
+        <label for="id_sexo" class="form-label">Sexo</label>
+        {{ form.sexo|add_class:"form-select" }}
+      </div>
+      <div class="mb-3">
+        <label for="id_edad" class="form-label">Edad</label>
+        {{ form.edad|add_class:"form-control" }}
+      </div>
+      <div class="mb-3">
+        <label for="id_telefono_emergencia" class="form-label">Teléfono de Emergencia</label>
+        {{ form.telefono_emergencia|add_class:"form-control" }}
+      </div>
+      
+      <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+    </form>
+  </div>
+  <div class="row">
+    <div class="col-md-12 text-center">
+      <a href="{% url 'tienda:lista_alumnos' %}" class="btn btn-primary btn-volver titulo"><i class="fa fa-reply-all" aria-hidden="true"> Volver</i></a>
+    </div>
+  </div>
+{% endblock %}
