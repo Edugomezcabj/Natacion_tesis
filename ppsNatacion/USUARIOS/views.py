@@ -20,3 +20,4 @@ def registrarse(request):
         return render(request, 'registration/registro.html', {
         'form': form
         })
+        

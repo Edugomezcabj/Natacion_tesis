@@ -3,7 +3,12 @@ from .models import ClaseNatacion, ComprasClase, InscripcionClase , Noticia
 from datetime import datetime, timedelta
 from django.utils import timezone
 from django.db.models import Q
+from .models import CustomUser
 
+class UsuarioForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['username',  'email', 'direccion', 'telefono', 'sexo', 'edad', 'telefono_emergencia', 'alergias']
 
 class ClaseNatacionForm(forms.ModelForm):
     DIAS_SEMANA_CHOICES = (

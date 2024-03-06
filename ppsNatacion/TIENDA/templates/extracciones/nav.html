@@ -76,6 +76,7 @@
                                 {{user.username}}
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                <li><a class="dropdown-item" href="{% url 'tienda:editar_usuario' usuario_id=user.id %}">Editar Información</a></li>
                                 <li><a class="dropdown-item" href="{% url 'logout' %}">Salir </a></li>
                             </ul>
                         </div>
@@ -92,3 +93,5 @@
         </div>
     </div>
 </nav>
+
+

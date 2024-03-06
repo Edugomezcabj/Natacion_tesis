@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect, JsonResponse, HttpResponseServerEr
 from django.urls import reverse
 from USUARIOS.models import CustomUser
 from USUARIOS.forms import RegistroForm
-from .forms import ClaseNatacionForm, CompraForm, InscripcionForm ,ClaseNatacionFilterForm, NoticiaForm # Importa el formulario de clase de natación
+from .forms import ClaseNatacionForm, CompraForm, InscripcionForm ,ClaseNatacionFilterForm, NoticiaForm, UsuarioForm 
 from .models import ClaseNatacion, InscripcionClase, ComprasClase , Noticia
 from datetime import datetime, timedelta
 from django.contrib import messages
@@ -496,6 +496,16 @@ def ver_mas_usuario(request, usuario_id):
     return render(request, 'tienda/ver_mas_usuario.html', {'usuario': usuario, 'compras': compras, 'inscripciones': inscripciones})
 
 
+def editar_usuario(request, usuario_id):
+    usuario = get_object_or_404(CustomUser, pk=usuario_id)
+    if request.method == 'POST':
+        form = UsuarioForm(request.POST, instance=usuario)
+        if form.is_valid():
+            form.save()
+            return redirect('tienda:ver_mas_usuario', usuario_id=usuario_id)
+    else:
+        form = UsuarioForm(instance=usuario)
+    return render(request, 'usuarioP/editar_usuario.html', {'form': form})
 
 def AgregarAlumno(request):
     template_name = 'tienda/agregar_alumno.html'
